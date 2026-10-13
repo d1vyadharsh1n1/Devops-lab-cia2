@@ -17,9 +17,10 @@ pipeline {
                 bat 'mvn clean test'
             }
             post {
-                junit(
-                    testResults: 'course-registration-app/target/surefire-reports/TEST-*.xml',
-                )
+                always {
+                    junit testResults: 'course-registration-app/target/surefire-reports/TEST-*.xml',
+                          allowEmptyResults: true
+                }
             }
         }
 
@@ -31,9 +32,7 @@ pipeline {
 
         stage('Archive Artifact') {
             steps {
-                archiveArtifacts(
-                    artifacts: 'course-registration-app/target/*.jar',
-                )
+                archiveArtifacts artifacts: 'course-registration-app/target/*.jar'
             }
         }
     }
